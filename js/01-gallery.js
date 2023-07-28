@@ -2,33 +2,35 @@ import { galleryItems } from './gallery-items.js';
 
 const galleryItemsRef = document.querySelector('.gallery');
 
-function createGalleryMarkup ({ preview, description }) {
-    const galleryElement = document.createElement('li');
-    galleryElement.classList.add('gallery__item');
+const createGalleryMarkup = galleryItems.map(
+        ({ preview, original, description }) =>
+            `<li class="gallery__item">
+        <a class="gallery__link" href="${original}">
+            <img
+                class="gallery__image"
+                src="${preview}"
+                data-source="${original}"
+                alt="${description}"
+            />
+        </a>
+    </li>`
+    ).join('');
+    
+    galleryItemsRef.innerHTML = createGalleryMarkup;
 
-    const galleryImage = document.createElement('img');
-    galleryImage.classList.add('gallery__image');
-    galleryImage.src = preview;
-    galleryImage.alt = description;
-
-    galleryElement.append(galleryImage);
-
-    return galleryElement;
-}
-
-const createGallery = galleryItems.map(createGalleryMarkup);
-galleryItemsRef.append(...createGallery);
-
-
-galleryItemsRef.addEventListener('click', onGalleryImageClick)
+galleryItemsRef.addEventListener('click', onGalleryImageClick);
 
 function onGalleryImageClick(evt) {
-    const src = evt.target.original
-    
-    
+    evt.preventDefault();
+
+    if (evt.target.classList.contains('gallery')) {
+        return;
+    }
+
+    const src = evt.target.dataset.source;
     
     const instance = basicLightbox.create(`
-    <img src="https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg"
+    <img src="${src}"
     width="1280">
     `)
 
