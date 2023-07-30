@@ -16,7 +16,7 @@ const createGalleryMarkup = galleryItems.map(
     </li>`
     ).join('');
     
-    galleryItemsRef.innerHTML = createGalleryMarkup;
+galleryItemsRef.innerHTML = createGalleryMarkup;
 
 galleryItemsRef.addEventListener('click', onGalleryImageClick);
 
